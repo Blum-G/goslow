@@ -29,7 +29,7 @@ export function Champ({
 
   return (
     <div className={`relative flex flex-col w-full ${className}`}>
-      <div className="group relative flex flex-col justify-end min-h-[58px] rounded-[var(--radius-petit)] bg-[var(--color-creme-fonce)] px-3.5 pt-4 pb-1.5 transition-colors focus-within:bg-[color-mix(in_srgb,var(--color-creme-fonce)_85%,var(--color-orange))]">
+      <div className="group relative flex flex-col justify-end min-h-[58px] rounded-[var(--radius-petit)] bg-[var(--color-creme-fonce)] px-3.5 pt-4 pb-1.5 transition-colors focus-within:bg-[color-mix(in_srgb,var(--color-creme-fonce)_85%,var(--color-orange))] focus-within:ring-2 focus-within:ring-[var(--color-orange)] focus-within:ring-offset-1 focus-within:ring-offset-[var(--color-creme)]">
         <label
           htmlFor={id}
           className={`pointer-events-none absolute left-3.5 transition-all duration-200 ease-[var(--ease-smooth)] select-none ${

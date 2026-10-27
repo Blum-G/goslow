@@ -27,7 +27,8 @@ export function TitreMots({
   }
 
   return (
-    <Balise className={className} aria-label={texte}>
+    <Balise className={className}>
+      <span className="sr-only">{texte}</span>
       <motion.span
         initial="hidden"
         whileInView="visible"

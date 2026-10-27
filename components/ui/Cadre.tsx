@@ -17,7 +17,9 @@ export function Cadre({
 }: CadreProps) {
   if (variante === "decale") {
     return (
-      <div className={`relative isolate inline-block ${conteneurClassName}`}>
+      <div
+        className={`relative isolate inline-block mr-2.5 mb-2.5 ${conteneurClassName}`}
+      >
         <div
           className="absolute inset-0 translate-x-2.5 translate-y-2.5 rounded-[var(--radius-petit)] border-2 border-[var(--color-orange)] -z-10"
           aria-hidden="true"
