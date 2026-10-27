@@ -12,7 +12,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Cadre } from "@/components/ui/Cadre";
 import { Etiquette } from "@/components/ui/Etiquette";
 import { ImagePlat } from "@/components/ui/ImagePlat";
-import { imagePlatExiste } from "@/lib/images";
+import { getImagePlat } from "@/lib/images";
 
 interface PageFichePlatProps {
   params: Promise<{ slug: string }>;
@@ -37,10 +37,13 @@ export async function generateMetadata({ params }: PageFichePlatProps) {
     });
   }
 
+  const imagePlat = getImagePlat(dish.slug);
+
   return buildMetadata({
     title: `${dish.name} à Atakpamé | Go Slow`,
     description: `Savourez notre ${dish.name} au Bar Restaurant Go Slow à Atakpamé : ${dish.description}. À déguster sur place ou en livraison rapide sur WhatsApp.`,
     path: `/menu/${dish.slug}`,
+    image: imagePlat ?? undefined,
   });
 }
 
@@ -98,11 +101,12 @@ export default async function PageFichePlat({ params }: PageFichePlatProps) {
 
           {/* Fiche détaillée */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14 items-start">
-            <Cadre variante="coin" className="w-full bg-[var(--color-creme-fonce)]">
+            <Cadre variante="coin" className="w-full bg-[var(--color-creme-fonce)] overflow-hidden">
               <ImagePlat
                 slug={dish.slug}
                 nom={dish.name}
-                imageDisponible={imagePlatExiste(dish.slug)}
+                imageSrc={getImagePlat(dish.slug)}
+                ratio="4/3"
                 priority
                 className="h-[320px] sm:h-[420px] w-full"
               />
@@ -183,7 +187,8 @@ export default async function PageFichePlat({ params }: PageFichePlatProps) {
                     <ImagePlat
                       slug={suggestion.slug}
                       nom={suggestion.name}
-                      imageDisponible={imagePlatExiste(suggestion.slug)}
+                      imageSrc={getImagePlat(suggestion.slug)}
+                      ratio="4/3"
                       className="h-36 w-full"
                     />
                   </Link>

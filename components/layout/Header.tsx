@@ -3,10 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { Conteneur } from "@/components/ui/Conteneur";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import { LOGO_PATH } from "@/lib/config";
 
 const liensNavigation = [
   { href: "/menu", libelle: "Menu" },
@@ -69,6 +71,8 @@ export function Header() {
     };
   }, [menuOuvert]);
 
+  const [logoErreur, setLogoErreur] = useState(false);
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[var(--color-creme-fonce)] bg-[color-mix(in_srgb,var(--color-creme)_95%,transparent)] backdrop-blur-md transition-colors">
       <Conteneur>
@@ -76,20 +80,24 @@ export function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="group flex items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-orange)] rounded-[var(--radius-petit)]"
+            className="group flex items-center gap-2.5 outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-orange)] rounded-[var(--radius-petit)]"
             aria-label="Accueil Bar Restaurant Go Slow"
           >
-            <span className="flex size-9 items-center justify-center rounded-[var(--radius-petit)] bg-[var(--color-anthracite)] text-[var(--color-creme)] font-bold text-lg tracking-wider transition-colors group-hover:bg-[var(--color-orange)]">
-              GS
-            </span>
-            <div className="flex flex-col">
-              <span className="font-bold tracking-tight text-lg leading-tight text-[var(--color-anthracite)]">
+            {logoErreur ? (
+              <span className="text-xl md:text-2xl font-bold tracking-tight text-[var(--color-anthracite)]">
                 GO SLOW
               </span>
-              <span className="text-[10px] uppercase font-semibold tracking-wider text-neutral-500 hidden sm:inline">
-                Atakpamé • Togo
-              </span>
-            </div>
+            ) : (
+              <Image
+                src={LOGO_PATH}
+                alt="Go Slow, bar restaurant à Atakpamé"
+                width={82}
+                height={48}
+                priority
+                onError={() => setLogoErreur(true)}
+                className="h-10 md:h-12 w-auto object-contain rounded-[var(--radius-petit)] transition-transform group-hover:scale-102"
+              />
+            )}
           </Link>
 
           {/* Navigation bureau */}
@@ -163,13 +171,23 @@ export function Header() {
               href="/"
               onClick={() => setMenuOuvert(false)}
               className="flex items-center gap-2"
+              aria-label="Accueil Bar Restaurant Go Slow"
             >
-              <span className="flex size-9 items-center justify-center rounded-[var(--radius-petit)] bg-[var(--color-anthracite)] text-[var(--color-creme)] font-bold text-lg">
-                GS
-              </span>
-              <span className="font-bold tracking-tight text-lg text-[var(--color-anthracite)]">
-                GO SLOW
-              </span>
+              {logoErreur ? (
+                <span className="text-xl font-bold tracking-tight text-[var(--color-anthracite)]">
+                  GO SLOW
+                </span>
+              ) : (
+                <Image
+                  src={LOGO_PATH}
+                  alt="Go Slow, bar restaurant à Atakpamé"
+                  width={82}
+                  height={48}
+                  priority
+                  onError={() => setLogoErreur(true)}
+                  className="h-10 w-auto object-contain rounded-[var(--radius-petit)]"
+                />
+              )}
             </Link>
 
             <button

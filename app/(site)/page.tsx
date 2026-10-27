@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getDishes, getCategories, getSettings } from "@/lib/data";
 import { SHOW_PRICES } from "@/lib/config";
 import { formatPrice } from "@/lib/format";
@@ -15,9 +14,10 @@ import { Etiquette } from "@/components/ui/Etiquette";
 import { ImagePlat } from "@/components/ui/ImagePlat";
 import { SeparateurDessine } from "@/components/ui/SeparateurDessine";
 import { ApercuMenu } from "@/components/sections/ApercuMenu";
+import { HeroFondMedia } from "@/components/sections/HeroFondMedia";
 import { TitreMots } from "@/components/motion/TitreMots";
 import { Reveal } from "@/components/motion/Reveal";
-import { getImagesPlatsDisponibles, heroPosterExiste } from "@/lib/images";
+import { getImagesPlatsDisponibles, getHeroVideoMedia } from "@/lib/images";
 
 export const metadata = buildMetadata({
   title:
@@ -40,35 +40,17 @@ export default async function PageAccueil() {
     "Bonjour Go Slow, je souhaite commander un repas en livraison.",
   );
 
-  const hasHeroPoster = heroPosterExiste();
+  const heroMedia = getHeroVideoMedia();
 
   return (
     <div className="flex flex-col w-full">
       {/* 1. Hero */}
       <section className="relative min-h-[85svh] flex items-center bg-[var(--color-anthracite)] text-[var(--color-creme)] overflow-hidden">
-        {/* Fond hero : poster s'il existe, sinon fond anthracite avec texte GO SLOW en grand */}
-        {hasHeroPoster ? (
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/video/hero-poster.jpg"
-              alt="Ambiance Bar Restaurant Go Slow à Atakpamé"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover opacity-35"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-anthracite)] via-[color-mix(in_srgb,var(--color-anthracite)_80%,transparent)] to-transparent" />
-          </div>
-        ) : (
-          <div
-            className="absolute inset-0 flex items-center justify-center opacity-10 select-none pointer-events-none"
-            aria-hidden="true"
-          >
-            <span className="text-[18vw] font-bold tracking-tighter text-[var(--color-creme)]">
-              GO SLOW
-            </span>
-          </div>
-        )}
+        {/* Fond hero (vidéo optimisée ou poster ou repli) */}
+        <HeroFondMedia
+          posterSrc={heroMedia.poster}
+          sources={heroMedia.sources}
+        />
 
         <Conteneur className="relative z-10 py-16 md:py-24">
           <div className="max-w-3xl flex flex-col gap-6">
@@ -167,7 +149,8 @@ export default async function PageAccueil() {
                         <ImagePlat
                           slug={plat.slug}
                           nom={plat.name}
-                          imageDisponible={imagesDisponibles[plat.slug]}
+                          imageSrc={imagesDisponibles[plat.slug]}
+                          ratio="4/3"
                           className="h-48 w-full"
                         />
                       </Link>

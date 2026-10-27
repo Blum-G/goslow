@@ -13,7 +13,7 @@ import { urlCommandePlat } from "@/lib/whatsapp-messages";
 interface ApercuMenuProps {
   categories: Category[];
   dishes: Dish[];
-  imagesDisponibles: Record<string, boolean>;
+  imagesDisponibles: Record<string, string | null>;
 }
 
 export function ApercuMenu({ categories, dishes, imagesDisponibles }: ApercuMenuProps) {
@@ -71,7 +71,8 @@ export function ApercuMenu({ categories, dishes, imagesDisponibles }: ApercuMenu
                   <ImagePlat
                     slug={plat.slug}
                     nom={plat.name}
-                    imageDisponible={imagesDisponibles[plat.slug]}
+                    imageSrc={imagesDisponibles[plat.slug]}
+                    ratio="4/3"
                     className="h-44 w-full transition-transform duration-500 ease-[var(--ease-smooth)] group-hover:scale-105"
                   />
                 </Link>

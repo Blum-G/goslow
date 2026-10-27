@@ -9,6 +9,8 @@ export const NUMERO_WHATSAPP_PROVISOIRE = "22890000000";
 export const WHATSAPP_NUMBER =
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || NUMERO_WHATSAPP_PROVISOIRE;
 
+export const LOGO_PATH = "/logo/logo.png";
+
 export function verifierGardeFouIndexation() {
   if (IS_INDEXING_ENABLED && WHATSAPP_NUMBER === NUMERO_WHATSAPP_PROVISOIRE) {
     throw new Error(

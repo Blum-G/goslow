@@ -4,35 +4,56 @@ import { Icon } from "./Icon";
 interface ImagePlatProps {
   slug: string;
   nom: string;
+  imageSrc?: string | null;
   imageDisponible?: boolean;
   className?: string;
   priority?: boolean;
   tailleIcone?: "sm" | "md" | "lg";
+  ratio?: "4/3" | "1/1" | "auto";
 }
 
 export function ImagePlat({
   slug,
   nom,
-  imageDisponible = false,
+  imageSrc,
+  imageDisponible,
   className = "",
   priority = false,
   tailleIcone = "lg",
+  ratio = "auto",
 }: ImagePlatProps) {
-  if (imageDisponible) {
+  // Détermine la source réelle de l'image
+  const sourceImage = imageSrc || (imageDisponible ? `/images/plats/${slug}.jpg` : null);
+
+  const classeRatio =
+    ratio === "4/3"
+      ? "aspect-[4/3]"
+      : ratio === "1/1"
+        ? "aspect-square"
+        : "";
+
+  if (sourceImage) {
+    // Pour les photos verticales (ex: risaugras), centrer légèrement vers le haut pour garder le plat bien visible
+    const positionObjet =
+      slug === "riz-au-gras" || slug === "risaugras"
+        ? "object-[center_35%]"
+        : "object-center";
+
     return (
-      <div className={`relative overflow-hidden ${className}`}>
+      <div className={`relative overflow-hidden ${classeRatio} ${className}`}>
         <Image
-          src={`/images/plats/${slug}.jpg`}
-          alt={`Assiette de ${nom} au Bar Restaurant Go Slow`}
+          src={sourceImage}
+          alt={`${nom}, plat du restaurant Go Slow à Atakpamé`}
           fill
           priority={priority}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className={`object-cover ${positionObjet} transition-transform duration-500 ease-[var(--ease-smooth)]`}
         />
       </div>
     );
   }
 
+  // Visuel de repli Go Slow
   const iconeNom =
     slug === "poulet" || slug === "spaghetti" || slug === "riz-cantonais"
       ? "couverts"
@@ -40,7 +61,7 @@ export function ImagePlat({
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-center overflow-hidden bg-[var(--color-creme-fonce)] p-6 text-center select-none ${className}`}
+      className={`relative flex flex-col items-center justify-center overflow-hidden bg-[var(--color-creme-fonce)] p-6 text-center select-none ${classeRatio} ${className}`}
       aria-label={`Illustration de repli pour ${nom}`}
     >
       <div
@@ -56,7 +77,7 @@ export function ImagePlat({
             {nom}
           </span>
           <span className="text-[11px] font-semibold uppercase tracking-wider text-neutral-500">
-            Go Slow
+            Go Slow • Atakpamé
           </span>
         </div>
       </div>

@@ -1,13 +1,17 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Conteneur } from "@/components/ui/Conteneur";
 import { Icon } from "@/components/ui/Icon";
 import { getSettings } from "@/lib/data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import { LOGO_PATH } from "@/lib/config";
+import { logoExiste } from "@/lib/images";
 
 export async function Footer() {
   const settings = await getSettings();
   const annee = new Date().getFullYear();
   const urlWhatsApp = buildWhatsAppUrl("Bonjour Go Slow, je souhaite vous contacter.");
+  const aLogo = logoExiste();
 
   return (
     <footer className="border-t border-[var(--color-creme-fonce)] bg-[var(--color-creme-fonce)] text-[var(--color-anthracite)] pt-14 pb-20 md:pb-12">
@@ -15,12 +19,21 @@ export async function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 pb-12 border-b border-[color-mix(in_srgb,var(--color-anthracite)_12%,transparent)]">
           {/* Colonne 1 : Navigation */}
           <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2">
-              <span className="flex size-8 items-center justify-center rounded-[var(--radius-petit)] bg-[var(--color-anthracite)] text-[var(--color-creme)] font-bold text-sm">
-                GS
-              </span>
-              <span className="font-bold tracking-tight text-lg">GO SLOW</span>
-            </div>
+            <Link href="/" className="inline-block" aria-label="Accueil Bar Restaurant Go Slow">
+              {aLogo ? (
+                <Image
+                  src={LOGO_PATH}
+                  alt="Go Slow, bar restaurant à Atakpamé"
+                  width={82}
+                  height={48}
+                  className="h-10 w-auto object-contain rounded-[var(--radius-petit)]"
+                />
+              ) : (
+                <span className="text-xl font-bold tracking-tight text-[var(--color-anthracite)]">
+                  GO SLOW
+                </span>
+              )}
+            </Link>
             <p className="text-sm text-neutral-600 leading-relaxed">
               Bar Restaurant chaleureux à Atakpamé. Spécialités togolaises,
               plats classiques et livraison à domicile ou au bureau.

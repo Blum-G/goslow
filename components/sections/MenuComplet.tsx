@@ -13,7 +13,7 @@ import { urlCommandePlat } from "@/lib/whatsapp-messages";
 interface MenuCompletProps {
   categories: Category[];
   dishes: Dish[];
-  imagesDisponibles: Record<string, boolean>;
+  imagesDisponibles: Record<string, string | null>;
 }
 
 export function MenuComplet({ categories, dishes, imagesDisponibles }: MenuCompletProps) {
@@ -87,7 +87,8 @@ export function MenuComplet({ categories, dishes, imagesDisponibles }: MenuCompl
                   <ImagePlat
                     slug={plat.slug}
                     nom={plat.name}
-                    imageDisponible={imagesDisponibles[plat.slug]}
+                    imageSrc={imagesDisponibles[plat.slug]}
+                    ratio="4/3"
                     className="h-48 w-full"
                   />
                 </Link>
