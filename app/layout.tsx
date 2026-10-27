@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Quicksand } from "next/font/google";
 import { SITE_URL } from "@/lib/seo";
+import { DefilementFluide } from "@/components/motion/DefilementFluide";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -34,7 +35,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr" className={quicksand.variable}>
-      <body>{children}</body>
+      <body>
+        <DefilementFluide />
+        {children}
+      </body>
     </html>
   );
 }
