@@ -1,0 +1,5 @@
+.next
+node_modules
+package-lock.json
+go-slow-cahier-des-charges.md
+next-env.d.ts
