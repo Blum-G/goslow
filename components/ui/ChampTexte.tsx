@@ -14,7 +14,7 @@ export interface ChampTexteProps
   libelle: string;
   erreur?: string;
   aide?: string;
-  type?: "text" | "tel" | "email" | "number" | "search";
+  type?: "text" | "tel" | "email" | "number" | "search" | "date" | "time";
 }
 
 export const ChampTexte = forwardRef<HTMLInputElement, ChampTexteProps>(

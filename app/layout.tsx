@@ -1,9 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Quicksand } from "next/font/google";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_URL, genererJsonLdRestaurant } from "@/lib/seo";
+import { IS_INDEXING_ENABLED } from "@/lib/config";
+import { getSettings } from "@/lib/data";
 import { DefilementFluide } from "@/components/motion/DefilementFluide";
 import { NotificationProvider } from "@/components/ui/Notification";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { BarreActionsMobile } from "@/components/layout/BarreActionsMobile";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -12,17 +17,16 @@ const quicksand = Quicksand({
   display: "swap",
 });
 
-const isIndexingEnabled = process.env.NEXT_PUBLIC_INDEXING === "true";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Bar Restaurant Go Slow à Atakpamé",
+    default:
+      "Bar Restaurant Go Slow à Atakpamé | Plats locaux, boissons & livraison",
     template: "%s | Go Slow Atakpamé",
   },
   description:
-    "Plats locaux, boissons et livraison à Atakpamé. Foufou, Ayimolou, Poulet et bien plus. Réservez votre table ou commandez en livraison.",
-  robots: isIndexingEnabled
+    "Bar restaurant à Atakpamé au Togo. Cuisine locale authentique, Foufou, Ayimolou, grillades et service de livraison. Réservez votre table ou commandez sur WhatsApp.",
+  robots: IS_INDEXING_ENABLED
     ? { index: true, follow: true }
     : { index: false, follow: false },
 };
@@ -33,13 +37,29 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const settings = await getSettings();
+  const schemaRestaurant = genererJsonLdRestaurant();
+
   return (
     <html lang="fr" className={quicksand.variable}>
-      <body>
+      <body className="flex min-h-svh flex-col bg-[var(--color-creme)] text-[var(--color-anthracite)]">
         <NotificationProvider>
           <DefilementFluide />
-          {children}
+          <Header />
+          <main className="flex-1 pb-16 md:pb-0">{children}</main>
+          <Footer />
+          <BarreActionsMobile telephone={settings.phone} />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(schemaRestaurant),
+            }}
+          />
         </NotificationProvider>
       </body>
     </html>
