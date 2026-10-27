@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Quicksand } from "next/font/google";
 import { SITE_URL } from "@/lib/seo";
 import { DefilementFluide } from "@/components/motion/DefilementFluide";
+import { NotificationProvider } from "@/components/ui/Notification";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -36,8 +37,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr" className={quicksand.variable}>
       <body>
-        <DefilementFluide />
-        {children}
+        <NotificationProvider>
+          <DefilementFluide />
+          {children}
+        </NotificationProvider>
       </body>
     </html>
   );
